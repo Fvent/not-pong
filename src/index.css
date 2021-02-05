@@ -41,3 +41,13 @@ body{
     top: 0vh;
     left: 70vw;
 }
+
+#puck{
+    position: relative;
+    height: 2vh;
+    width: 2vw;
+    top: 33vh;
+    left: 38vw;
+    background-color: white;
+    border-radius: 75%;
+}

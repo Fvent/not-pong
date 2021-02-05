@@ -63,6 +63,7 @@ class Board extends React.Component {
     render(){
         return (<div id="board" onKeyDown={this.movePaddle} tabIndex='0'>
            <div id="left-paddle"></div>
+           <div id="puck"></div>
             <div id="right-paddle"></div>
         </div>);
     }
