@@ -20,22 +20,24 @@ body{
     margin-right: auto;
     position: relative;
     display: inline-flex;
+    box-sizing: border-box;
 }
 
 #left-paddle{
     position: relative;
-    height: 20vh;
+    height: 15vh;
     width: 1vw;
     background-color: white;
-    top: '0px';
+    top: 0vh;
     left: 10vw;
+    box-sizing: inherit;
 }
 
 #right-paddle{
     position: relative;
-    height: 20vh;
+    height: 15vh;
     width: 1vw;
     background-color: white;
-    top: '0px';
+    top: 0vh;
     left: 70vw;
 }

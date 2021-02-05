@@ -8,6 +8,8 @@ class App extends React.Component {
         return (<div id="app">
             <h1>Not PONG</h1>
             <Board />
+            <h3>Left Paddle: up -- s |  down -- x</h3>
+            <h3>Right Paddle: up -- ↑ |  down -- ↓</h3>
         </div>);
     }
 }
@@ -26,22 +28,31 @@ class Board extends React.Component {
         var leftPaddle = document.getElementById('left-paddle');
         var rightPaddle = document.getElementById('right-paddle');
 
-        console.log(event.keyCode);
+        console.log(event);
         if(event.keyCode === 83){
-            this.leftPaddleTop -= 20;
-            leftPaddle.style.top = this.leftPaddleTop + 'px';
+            if(this.leftPaddleTop > 0){
+                this.leftPaddleTop -= 5;
+                leftPaddle.style.top = this.leftPaddleTop + 'vh';
+            }
         }
         if(event.keyCode === 88){
-            this.leftPaddleTop += 20;
-            leftPaddle.style.top = this.leftPaddleTop + 'px';
+            if(this.leftPaddleTop < 55){
+                this.leftPaddleTop += 5;
+                leftPaddle.style.top = this.leftPaddleTop + 'vh';
+            }
         }
         if(event.keyCode === 38){
-            this.rightPaddleTop -= 20;
-            rightPaddle.style.top = this.rightPaddleTop + 'px';
+            if(this.rightPaddleTop > 0){
+                this.rightPaddleTop -= 5;
+                rightPaddle.style.top = this.rightPaddleTop + 'vh';
+            }
         }
         if(event.keyCode === 40){
-            this.rightPaddleTop += 20;
-            rightPaddle.style.top = this.rightPaddleTop + 'px';
+            if(this.rightPaddleTop < 55){
+                this.rightPaddleTop += 5;
+                rightPaddle.style.top = this.rightPaddleTop + 'vh';
+            }
+           
         }
 
 
