@@ -51,3 +51,10 @@ body{
     background-color: white;
     border-radius: 75%;
 }
+
+#start-btn{
+    position:fixed;
+    top: 82vh;
+    width: 10vw;
+    height: 7vh;
+}
