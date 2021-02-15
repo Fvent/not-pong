@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const RIGHT='right';
+const LEFT = 'left';
+const LPL = '5vw'; //leftPaddle style left
+const RPL = '71vw'; // rightPaddle style left
 
 class App extends React.Component {
     render(){
@@ -20,7 +24,7 @@ class Board extends React.Component {
 
         this.state = {
             gameStarted : false,
-            direction: "left"
+            direction: LEFT
         }
 
         this.leftPaddleTop = 0;
@@ -32,34 +36,38 @@ class Board extends React.Component {
         this.movePaddle = this.movePaddle.bind(this);
         this.handleStartButton = this.handleStartButton.bind(this);
         this.movingPuckFunction = this.movingPuckFunction.bind(this);
+
+        
     }
 
     movePaddle(event){
         var leftPaddle = document.getElementById('left-paddle');
         var rightPaddle = document.getElementById('right-paddle');
         
-        console.log(event);
+        // console.log(this.leftPaddleTop);
         if(event.keyCode === 83){
             if(this.leftPaddleTop > 0){
-                this.leftPaddleTop -= 5;
+                this.leftPaddleTop =  this.leftPaddleTop - 5;
+                console.log(this.leftPaddleTop);
                 leftPaddle.style.top = this.leftPaddleTop + 'vh';
             }
         }
         if(event.keyCode === 88){
             if(this.leftPaddleTop < 55){
-                this.leftPaddleTop += 5;
+                this.leftPaddleTop = this.leftPaddleTop + 5;
+                console.log(this.leftPaddleTop);
                 leftPaddle.style.top = this.leftPaddleTop + 'vh';
             }
         }
         if(event.keyCode === 38){
             if(this.rightPaddleTop > 0){
-                this.rightPaddleTop -= 5;
+                this.rightPaddleTop  = this.rightPaddleTop - 5;
                 rightPaddle.style.top = this.rightPaddleTop + 'vh';
             }
         }
         if(event.keyCode === 40){
             if(this.rightPaddleTop < 55){
-                this.rightPaddleTop += 5;
+                this.rightPaddleTop  = this.rightPaddleTop + 5;
                 rightPaddle.style.top = this.rightPaddleTop + 'vh';
             }
            
@@ -69,7 +77,7 @@ class Board extends React.Component {
     handleStartButton(){
         this.setState({
             gameStarted: true,
-            direction: "left"
+            direction: LEFT
         });
         setInterval(this.movingPuckFunction, 5);
     }
@@ -80,19 +88,37 @@ class Board extends React.Component {
 
         var puckMovement = 0.1;
 
-        if(this.state.direction === "left"){
+        
+        if(this.state.direction === LEFT){
+            
+            if((this.leftPaddleTop < this.puckTop && this.leftPaddleTop+15>this.puckTop) && LPL === puck.style.left){
+                this.setState({
+                    direction: RIGHT
+                });
+            }else{
                 this.puckLeft -= puckMovement;
                 puck.style.left = this.puckLeft + 'vw';
+            }
+
+            
         }
-        if(this.state.direction === "right"){
+        if(this.state.direction === RIGHT){
+
+            if((this.rightPaddleTop < this.puckTop && this.rightPaddleTop+15>this.puckTop) && RPL === puck.style.left){
+                this.setState({
+                    direction: LEFT
+                })
+            }else{
                 this.puckLeft += puckMovement;
                 puck.style.left = this.puckLeft + 'vw';
+            }
+                
         }
    }
 
 
     render(){
-        return (<div id="board" onKeyDown={this.movePaddle} tabIndex='0'>
+        return (<div id="board" onKeyDown={this.movePaddle} tabIndex='1'>
            <div id="left-paddle"></div>
            <div id="puck"></div>
             <div id="right-paddle"></div>
