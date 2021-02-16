@@ -4,6 +4,9 @@ import './index.css';
 
 const RIGHT='right';
 const LEFT = 'left';
+const UP = 'up';
+const DOWN = 'down';
+const NONE = 'none';
 const LPL = '5vw'; //leftPaddle style left
 const RPL = '71vw'; // rightPaddle style left
 
@@ -24,7 +27,8 @@ class Board extends React.Component {
 
         this.state = {
             gameStarted : false,
-            direction: LEFT
+            direction: LEFT,
+            verticalDirection: NONE
         }
 
         this.leftPaddleTop = 0;
@@ -37,6 +41,8 @@ class Board extends React.Component {
         this.handleStartButton = this.handleStartButton.bind(this);
         this.movingPuckFunction = this.movingPuckFunction.bind(this);
 
+        this.lastLeftMOVEMENT = NONE;
+        this.lastRightMOVEMENT = NONE;
         
     }
 
@@ -50,6 +56,7 @@ class Board extends React.Component {
                 this.leftPaddleTop =  this.leftPaddleTop - 5;
                 console.log(this.leftPaddleTop);
                 leftPaddle.style.top = this.leftPaddleTop + 'vh';
+                this.lastLeftMOVEMENT = UP;
             }
         }
         if(event.keyCode === 88){
@@ -57,18 +64,21 @@ class Board extends React.Component {
                 this.leftPaddleTop = this.leftPaddleTop + 5;
                 console.log(this.leftPaddleTop);
                 leftPaddle.style.top = this.leftPaddleTop + 'vh';
+                this.lastLeftMOVEMENT = DOWN;
             }
         }
         if(event.keyCode === 38){
             if(this.rightPaddleTop > 0){
                 this.rightPaddleTop  = this.rightPaddleTop - 5;
                 rightPaddle.style.top = this.rightPaddleTop + 'vh';
+                this.lastRightMOVEMENT = UP;
             }
         }
         if(event.keyCode === 40){
             if(this.rightPaddleTop < 55){
                 this.rightPaddleTop  = this.rightPaddleTop + 5;
                 rightPaddle.style.top = this.rightPaddleTop + 'vh';
+                this.lastRightMOVEMENT = DOWN;
             }
            
         }
@@ -87,17 +97,37 @@ class Board extends React.Component {
         var puck = document.getElementById('puck');
 
         var puckMovement = 0.1;
-
+        var puckVerticalMovement = 0.1;
         
         if(this.state.direction === LEFT){
             
             if((this.leftPaddleTop < this.puckTop && this.leftPaddleTop+15>this.puckTop) && LPL === puck.style.left){
                 this.setState({
-                    direction: RIGHT
+                    direction: RIGHT,
+                    verticalDirection: this.lastLeftMOVEMENT
                 });
             }else{
+
+                if(this.puckTop < 0){
+                    this.setState({
+                        verticalDirection: DOWN
+                    });
+                }if(this.puckTop > 70){
+                    this.setState({
+                        verticalDirection: UP
+                    });
+                }
+
                 this.puckLeft -= puckMovement;
                 puck.style.left = this.puckLeft + 'vw';
+                if(this.state.verticalDirection === UP){
+                    this.puckTop -= puckVerticalMovement;
+                    puck.style.top = this.puckTop+'vh';
+                }
+                if(this.state.verticalDirection === DOWN){
+                    this.puckTop += puckVerticalMovement;
+                    puck.style.top = this.puckTop+'vh';
+                }
             }
 
             
@@ -106,11 +136,31 @@ class Board extends React.Component {
 
             if((this.rightPaddleTop < this.puckTop && this.rightPaddleTop+15>this.puckTop) && RPL === puck.style.left){
                 this.setState({
-                    direction: LEFT
+                    direction: LEFT,
+                    verticalDirection: this.lastRightMOVEMENT
                 })
             }else{
+
+                if(this.puckTop < 0){
+                    this.setState({
+                        verticalDirection: DOWN
+                    });
+                }if(this.puckTop > 70){
+                    this.setState({
+                        verticalDirection: UP
+                    });
+                }
+
                 this.puckLeft += puckMovement;
                 puck.style.left = this.puckLeft + 'vw';
+                if(this.state.verticalDirection === UP){
+                    this.puckTop -= puckVerticalMovement;
+                    puck.style.top = this.puckTop+'vh';
+                }
+                if(this.state.verticalDirection === DOWN){
+                    this.puckTop += puckVerticalMovement;
+                    puck.style.top = this.puckTop+'vh';
+                }
             }
                 
         }
