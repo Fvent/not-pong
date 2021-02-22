@@ -13,7 +13,7 @@ const RPL = '71vw'; // rightPaddle style left
 class App extends React.Component {
     render(){
         return (<div id="app">
-            <h1>Not PONG</h1>
+            <h1>NOT-PONG</h1>
             <Board />
             <h3>Left Paddle: up -- s |  down -- x</h3>
             <h3>Right Paddle: up -- ↑ |  down -- ↓</h3>
@@ -28,7 +28,9 @@ class Board extends React.Component {
         this.state = {
             gameStarted : false,
             direction: LEFT,
-            verticalDirection: NONE
+            verticalDirection: NONE,
+            leftScore: 0, 
+            rightScore: 0
         }
 
         this.leftPaddleTop = 0;
@@ -43,6 +45,8 @@ class Board extends React.Component {
 
         this.lastLeftMOVEMENT = NONE;
         this.lastRightMOVEMENT = NONE;
+        
+        this.inter = null;
         
     }
 
@@ -89,11 +93,32 @@ class Board extends React.Component {
             gameStarted: true,
             direction: LEFT
         });
-        setInterval(this.movingPuckFunction, 5);
+        this.inter = setInterval(this.movingPuckFunction, 5);
+        
     }
 
    movingPuckFunction(){
 
+        if(this.puckLeft>80){
+            clearInterval(this.inter);
+            this.setState({
+                gameStarted : false,
+                leftScore : this.state.leftScore + 1
+            });
+            this.puckLeft = 38;
+            this.puckTop = 33;
+            console.log('interval cleared  > 80');
+        }
+        if(this.puckLeft<-2){
+            clearInterval(this.inter);
+            this.setState({
+                gameStarted : false,
+                rightScore : this.state.rightScore + 1
+            });
+            this.puckLeft = 38;
+            this.puckTop = 33;
+            console.log('interval cleared  < 0')
+        }
         var puck = document.getElementById('puck');
 
         var puckMovement = 0.1;
@@ -150,7 +175,7 @@ class Board extends React.Component {
                         verticalDirection: UP
                     });
                 }
-
+                
                 this.puckLeft += puckMovement;
                 puck.style.left = this.puckLeft + 'vw';
                 if(this.state.verticalDirection === UP){
@@ -169,6 +194,11 @@ class Board extends React.Component {
 
     render(){
         return (<div id="board" onKeyDown={this.movePaddle} tabIndex='1'>
+            <div id="scoreboard">
+                <div id='leftscore'>Left: {this.state.leftScore}</div>
+                <div id='rightscore'>Right: {this.state.rightScore}</div>
+            </div>
+            
            <div id="left-paddle"></div>
            <div id="puck"></div>
             <div id="right-paddle"></div>
