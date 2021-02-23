@@ -9,6 +9,8 @@ const DOWN = 'down';
 const NONE = 'none';
 const LPL = '5vw'; //leftPaddle style left
 const RPL = '71vw'; // rightPaddle style left
+const LEFT_WINS = 'LEFT WINS';
+const RIGHT_WINS = 'RIGHT WINS';
 
 class App extends React.Component {
     render(){
@@ -30,7 +32,8 @@ class Board extends React.Component {
             direction: LEFT,
             verticalDirection: NONE,
             leftScore: 0, 
-            rightScore: 0
+            rightScore: 0,
+            message: ''
         }
 
         this.leftPaddleTop = 0;
@@ -107,7 +110,10 @@ class Board extends React.Component {
             });
             this.puckLeft = 38;
             this.puckTop = 33;
-            console.log('interval cleared  > 80');
+            // console.log('interval cleared  > 80');
+            if(this.state.leftScore === 11){
+                this.setState({message: LEFT_WINS});
+            }
         }
         if(this.puckLeft<-2){
             clearInterval(this.inter);
@@ -117,7 +123,10 @@ class Board extends React.Component {
             });
             this.puckLeft = 38;
             this.puckTop = 33;
-            console.log('interval cleared  < 0')
+            // console.log('interval cleared  < 0')
+            if(this.state.rightScore === 11){
+                this.setState({message: RIGHT_WINS});
+            }
         }
         var puck = document.getElementById('puck');
 
@@ -195,14 +204,14 @@ class Board extends React.Component {
     render(){
         return (<div id="board" onKeyDown={this.movePaddle} tabIndex='1'>
             <div id="scoreboard">
-                <div id='leftscore'>Left: {this.state.leftScore}</div>
-                <div id='rightscore'>Right: {this.state.rightScore}</div>
+                <div id='leftscore'><h2>Left: {this.state.leftScore}</h2></div>
+                <div id='rightscore'><h2>Right: {this.state.rightScore}</h2></div>
             </div>
-            
+            <div id="win-message">{this.state.message}</div>
            <div id="left-paddle"></div>
            <div id="puck"></div>
             <div id="right-paddle"></div>
-            <button id="start-btn" onClick={this.handleStartButton}>Start</button>
+            <button id="start-btn" onClick={this.handleStartButton}>Serve</button>
         </div>);
     }
 }

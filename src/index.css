@@ -59,6 +59,20 @@ body{
     height: 7vh;
 }
 #scoreboard{
+    display: inline-flex;
+}
+#leftscore{
     position: fixed;
     top: 3vh;
+    margin-left: 5vw;
+}
+#rightscore{
+    position: fixed;
+    top: 3vh;
+    left: 80vw;
+}
+#win-message{
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
 }
