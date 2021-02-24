@@ -92,9 +92,11 @@ class Board extends React.Component {
     }
 
     handleStartButton(){
+        document.getElementById('board').focus();
         this.setState({
             gameStarted: true,
-            direction: LEFT
+            direction: LEFT,
+            message: ''
         });
         this.inter = setInterval(this.movingPuckFunction, 5);
         
@@ -112,7 +114,11 @@ class Board extends React.Component {
             this.puckTop = 33;
             // console.log('interval cleared  > 80');
             if(this.state.leftScore === 11){
-                this.setState({message: LEFT_WINS});
+                this.setState({
+                    message: LEFT_WINS,
+                    leftScore: 0,
+                    rightScore: 0
+                });
             }
         }
         if(this.puckLeft<-2){
@@ -125,7 +131,11 @@ class Board extends React.Component {
             this.puckTop = 33;
             // console.log('interval cleared  < 0')
             if(this.state.rightScore === 11){
-                this.setState({message: RIGHT_WINS});
+                this.setState({
+                    message: RIGHT_WINS,
+                    leftScore: 0,
+                    rightScore: 0
+                });
             }
         }
         var puck = document.getElementById('puck');
@@ -202,7 +212,7 @@ class Board extends React.Component {
 
 
     render(){
-        return (<div id="board" onKeyDown={this.movePaddle} tabIndex='1'>
+        return (<div id="board" onKeyDown={this.movePaddle} tabIndex="1">
             <div id="scoreboard">
                 <div id='leftscore'><h2>Left: {this.state.leftScore}</h2></div>
                 <div id='rightscore'><h2>Right: {this.state.rightScore}</h2></div>
@@ -211,7 +221,8 @@ class Board extends React.Component {
            <div id="left-paddle"></div>
            <div id="puck"></div>
             <div id="right-paddle"></div>
-            <button id="start-btn" onClick={this.handleStartButton}>Serve</button>
+            <button id="start-btn" onClick={this.handleStartButton} disabled={this.state.gameStarted}>Serve</button>
+            
         </div>);
     }
 }
