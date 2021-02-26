@@ -11,6 +11,8 @@ const LPL = '5vw'; //leftPaddle style left
 const RPL = '71vw'; // rightPaddle style left
 const LEFT_WINS = 'LEFT WINS';
 const RIGHT_WINS = 'RIGHT WINS';
+const VERTICAL_PUCK_TOP = 0;
+const VERTICAL_PUCK_BOTTOM = 68;
 
 class App extends React.Component {
     render(){
@@ -95,7 +97,6 @@ class Board extends React.Component {
         document.getElementById('board').focus();
         this.setState({
             gameStarted: true,
-            direction: LEFT,
             message: ''
         });
         this.inter = setInterval(this.movingPuckFunction, 5);
@@ -104,14 +105,19 @@ class Board extends React.Component {
 
    movingPuckFunction(){
 
+    var puck = document.getElementById('puck');
         if(this.puckLeft>80){
             clearInterval(this.inter);
             this.setState({
                 gameStarted : false,
+                direction : RIGHT,
+                verticalDirection : NONE,
                 leftScore : this.state.leftScore + 1
             });
             this.puckLeft = 38;
             this.puckTop = 33;
+            puck.style.left = this.puckLeft+'vw';
+            puck.style.top = this.puckTop+'vh';
             // console.log('interval cleared  > 80');
             if(this.state.leftScore === 11){
                 this.setState({
@@ -125,10 +131,14 @@ class Board extends React.Component {
             clearInterval(this.inter);
             this.setState({
                 gameStarted : false,
+                direction : LEFT,
+                verticalDirection : NONE,
                 rightScore : this.state.rightScore + 1
             });
             this.puckLeft = 38;
             this.puckTop = 33;
+            puck.style.left = this.puckLeft+'vw';
+            puck.style.top = this.puckTop+'vh';
             // console.log('interval cleared  < 0')
             if(this.state.rightScore === 11){
                 this.setState({
@@ -138,25 +148,29 @@ class Board extends React.Component {
                 });
             }
         }
-        var puck = document.getElementById('puck');
+
+        // this.puckLeft = 38;
+        // this.puckTop = 33;
+
+       
 
         var puckMovement = 0.1;
         var puckVerticalMovement = 0.1;
         
         if(this.state.direction === LEFT){
             
-            if((this.leftPaddleTop < this.puckTop && this.leftPaddleTop+15>this.puckTop) && LPL === puck.style.left){
+            if(((this.leftPaddleTop - 5) < this.puckTop && this.leftPaddleTop+15>this.puckTop) && LPL === puck.style.left){
                 this.setState({
                     direction: RIGHT,
                     verticalDirection: this.lastLeftMOVEMENT
                 });
             }else{
 
-                if(this.puckTop < 0){
+                if(this.puckTop < VERTICAL_PUCK_TOP){
                     this.setState({
                         verticalDirection: DOWN
                     });
-                }if(this.puckTop > 70){
+                }if(this.puckTop > VERTICAL_PUCK_BOTTOM){
                     this.setState({
                         verticalDirection: UP
                     });
@@ -178,18 +192,18 @@ class Board extends React.Component {
         }
         if(this.state.direction === RIGHT){
 
-            if((this.rightPaddleTop < this.puckTop && this.rightPaddleTop+15>this.puckTop) && RPL === puck.style.left){
+            if(((this.rightPaddleTop-5) < this.puckTop && this.rightPaddleTop+15>this.puckTop) && RPL === puck.style.left){
                 this.setState({
                     direction: LEFT,
                     verticalDirection: this.lastRightMOVEMENT
                 })
             }else{
 
-                if(this.puckTop < 0){
+                if(this.puckTop < VERTICAL_PUCK_TOP){
                     this.setState({
                         verticalDirection: DOWN
                     });
-                }if(this.puckTop > 70){
+                }if(this.puckTop > VERTICAL_PUCK_BOTTOM){
                     this.setState({
                         verticalDirection: UP
                     });
