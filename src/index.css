@@ -8,7 +8,7 @@ body{
     color: white;
     text-align: center;
     width: 90vw;
-    height: 90vh;
+    height: 95vh;
     margin-left: auto;
     margin-right: auto;
 }
@@ -25,21 +25,22 @@ body{
 
 #left-paddle{
     position: relative;
-    height: 15vh;
+    height: 20vh;
     width: 1vw;
     background-color: white;
-    top: 0vh;
+    top: 26vh;
     left: 6vw;
     box-sizing: inherit;
 }
 
 #right-paddle{
     position: relative;
-    height: 15vh;
+    height: 20vh;
     width: 1vw;
     background-color: white;
-    top: 0vh;
+    top: 26vh;
     left: 70vw;
+    box-sizing: inherit;
 }
 
 #puck{
@@ -75,4 +76,5 @@ body{
     position: fixed;
     top: 50vh;
     left: 50vw;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }

@@ -13,6 +13,9 @@ const LEFT_WINS = 'LEFT WINS';
 const RIGHT_WINS = 'RIGHT WINS';
 const VERTICAL_PUCK_TOP = 0;
 const VERTICAL_PUCK_BOTTOM = 68;
+const POINTS_TO_WIN = 7;
+const PADDLE_HEIGHT = 20;
+const INITIAL_PADDLE_TOP = 26;
 
 class App extends React.Component {
     render(){
@@ -38,8 +41,8 @@ class Board extends React.Component {
             message: ''
         }
 
-        this.leftPaddleTop = 0;
-        this.rightPaddleTop = 0;
+        this.leftPaddleTop = INITIAL_PADDLE_TOP;
+        this.rightPaddleTop = INITIAL_PADDLE_TOP;
 
         this.puckLeft = 38;
         this.puckTop = 33;
@@ -119,7 +122,7 @@ class Board extends React.Component {
             puck.style.left = this.puckLeft+'vw';
             puck.style.top = this.puckTop+'vh';
             // console.log('interval cleared  > 80');
-            if(this.state.leftScore === 11){
+            if(this.state.leftScore === POINTS_TO_WIN){
                 this.setState({
                     message: LEFT_WINS,
                     leftScore: 0,
@@ -140,7 +143,7 @@ class Board extends React.Component {
             puck.style.left = this.puckLeft+'vw';
             puck.style.top = this.puckTop+'vh';
             // console.log('interval cleared  < 0')
-            if(this.state.rightScore === 11){
+            if(this.state.rightScore === POINTS_TO_WIN){
                 this.setState({
                     message: RIGHT_WINS,
                     leftScore: 0,
@@ -159,7 +162,7 @@ class Board extends React.Component {
         
         if(this.state.direction === LEFT){
             
-            if(((this.leftPaddleTop - 5) < this.puckTop && this.leftPaddleTop+15>this.puckTop) && LPL === puck.style.left){
+            if((this.leftPaddleTop < this.puckTop && this.leftPaddleTop+PADDLE_HEIGHT>this.puckTop) && LPL === puck.style.left){
                 this.setState({
                     direction: RIGHT,
                     verticalDirection: this.lastLeftMOVEMENT
@@ -192,7 +195,7 @@ class Board extends React.Component {
         }
         if(this.state.direction === RIGHT){
 
-            if(((this.rightPaddleTop-5) < this.puckTop && this.rightPaddleTop+15>this.puckTop) && RPL === puck.style.left){
+            if((this.rightPaddleTop < this.puckTop && this.rightPaddleTop+PADDLE_HEIGHT>this.puckTop) && RPL === puck.style.left){
                 this.setState({
                     direction: LEFT,
                     verticalDirection: this.lastRightMOVEMENT
@@ -231,7 +234,7 @@ class Board extends React.Component {
                 <div id='leftscore'><h2>Left: {this.state.leftScore}</h2></div>
                 <div id='rightscore'><h2>Right: {this.state.rightScore}</h2></div>
             </div>
-            <div id="win-message">{this.state.message}</div>
+            <div id="win-message"><h1>{this.state.message}</h1></div>
            <div id="left-paddle"></div>
            <div id="puck"></div>
             <div id="right-paddle"></div>
