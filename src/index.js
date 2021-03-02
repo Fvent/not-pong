@@ -66,15 +66,15 @@ class Board extends React.Component {
         if(event.keyCode === 83){
             if(this.leftPaddleTop > 0){
                 this.leftPaddleTop =  this.leftPaddleTop - 5;
-                console.log(this.leftPaddleTop);
+                if(this.leftPaddleTop <= 0){this.leftPaddleTop = 0}
                 leftPaddle.style.top = this.leftPaddleTop + 'vh';
                 this.lastLeftMOVEMENT = UP;
             }
         }
         if(event.keyCode === 88){
-            if(this.leftPaddleTop < 55){
+            if(this.leftPaddleTop+PADDLE_HEIGHT < 70){
                 this.leftPaddleTop = this.leftPaddleTop + 5;
-                console.log(this.leftPaddleTop);
+                if(this.leftPaddleTop+PADDLE_HEIGHT >= 70){this.leftPaddleTop = 70-PADDLE_HEIGHT}
                 leftPaddle.style.top = this.leftPaddleTop + 'vh';
                 this.lastLeftMOVEMENT = DOWN;
             }
@@ -82,6 +82,7 @@ class Board extends React.Component {
         if(event.keyCode === 38){
             if(this.rightPaddleTop > 0){
                 this.rightPaddleTop  = this.rightPaddleTop - 5;
+                if(this.rightPaddleTop <= 0){this.rightPaddleTop=0;}
                 rightPaddle.style.top = this.rightPaddleTop + 'vh';
                 this.lastRightMOVEMENT = UP;
             }
@@ -89,6 +90,7 @@ class Board extends React.Component {
         if(event.keyCode === 40){
             if(this.rightPaddleTop < 55){
                 this.rightPaddleTop  = this.rightPaddleTop + 5;
+                if(this.rightPaddleTop+PADDLE_HEIGHT >= 70){this.rightPaddleTop=70-PADDLE_HEIGHT}
                 rightPaddle.style.top = this.rightPaddleTop + 'vh';
                 this.lastRightMOVEMENT = DOWN;
             }
